@@ -17,11 +17,11 @@ async def headers_middleware(request: Request, call_next):
 	return response
 
 
-async def jwt_middleware(request: Request, call_next):
-  if "Authorization" not in request.headers or "auth" in str(request.url.path):
-    return await call_next(request)
-  token = get_token(request.headers)
-
-  if BlacklistedTokens.objects(token=token).first():
-    return Response("JWT Token Invalid", status_code=401)
-  return await call_next(request)
+# async def jwt_middleware(request: Request, call_next):
+#   if "Authorization" not in request.headers or "auth" in str(request.url.path):
+#     return await call_next(request)
+#   token = get_token(request.headers)
+#
+#   if BlacklistedTokens.objects(token=token).first():
+#     return Response("JWT Token Invalid", status_code=401)
+#   return await call_next(request)

@@ -1,5 +1,5 @@
 dev_install_requirements:
-    @pip install -r requirements.txt
+	@pip install -r ./requirements.txt
 
 dev_run:
-    @python ./app.py
+	@python app.py
