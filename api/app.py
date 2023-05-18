@@ -2,13 +2,13 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from enviroments import WEB_APP_ADDRESS
-from app_middlewares import headers_middleware
+from api.config.enviroments import WEB_APP_ADDRESS
+from api.config.app_middlewares import headers_middleware
 
 
 def create_app():
 	app = FastAPI()
-	app.middleware('http')(headers_middleware())
+	app.middleware('http')(headers_middleware)
 
 	app.add_middleware(
 		CORSMiddleware,
@@ -26,7 +26,7 @@ app = create_app()
 
 def run_server():
 	uvicorn.run(
-		app="api.app:app",
+		app="app:app",
 		host="0.0.0.0",
 		port=5000,
 		reload=True,
