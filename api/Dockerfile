@@ -2,5 +2,6 @@ FROM debian:11
 
 RUN source ./.venv/bin/activate
 RUN pip install -r ./requirements.txt
+RUN cd ./api
 
-CMD ["python", "./app.py"]
+CMD ["make", "dev_run"]

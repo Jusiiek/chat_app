@@ -1,0 +1,22 @@
+[
+  {
+    "name": "SUPER_ADMIN",
+    "pseudo_name": "GREAT LORD"
+  },
+  {
+    "name": "ADMIN",
+    "pseudo_name": "GREAT KNIGHT"
+  },
+  {
+    "name": "SUBSCRIBER_PLUS",
+    "pseudo_name": "NOBLEMAN"
+  },
+  {
+    "name": "SUBSCRIBER",
+    "pseudo_name": "BURGHER"
+  },
+  {
+    "name": "USER",
+    "pseudo_name": "COMMONERS"
+  }
+]
