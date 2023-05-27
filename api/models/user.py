@@ -1,16 +1,16 @@
-from datetime import date
+from datetime import datetime
 
+from mongoengine import StringField, DateField, BooleanField
 from pydantic import BaseModel
-
-from models.roel import Role
 
 
 class User(BaseModel):
-	email: str
-	username: str
-	password: str
-	created_at: date
-	updated_at: date
-	last_logged: date
-	role: Role
-	is_banned: bool
+	email = StringField(required=True, unique=True, max_length=70)
+	username = StringField(required=True, unique=True, max_length=70)
+	password = StringField(max_length=100)
+	created_at = DateField(default=datetime.now())
+	updated_at = DateField(default=datetime.now())
+	last_logged = DateField(default=datetime.now())
+	role_id = StringField(max_length=100)
+	is_active = BooleanField(default=False)
+	banned = BooleanField(default=False)

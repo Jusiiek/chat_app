@@ -1,8 +1,11 @@
-from pydantic import BaseModel
+from datetime import datetime
 
-from models.user import User
+from pydantic import BaseModel
+from mongoengine import StringField, DateField
+
 
 class Ban(BaseModel):
-	user: User
-	reason: str
-	ban_expire: str
+	user = StringField(max_length=50)
+	reason = StringField(max_length=500)
+	ban_expire = DateField(default=datetime.now())
+	ban_expire_str = StringField(max_length=50)
