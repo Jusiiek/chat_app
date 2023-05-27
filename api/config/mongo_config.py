@@ -1,6 +1,6 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from enviroments import MONGO_URL
+from config.enviroments import MONGO_URL
 
 client = {'mongodb': None}
 

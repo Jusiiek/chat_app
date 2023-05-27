@@ -2,9 +2,9 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from api.config.enviroments import WEB_APP_ADDRESS
-from api.config.app_middlewares import headers_middleware
-from api.config.mongo_config import close_db, connect_db
+from config.app_middlewares import headers_middleware
+from config.mongo_config import close_db, connect_db
+from config.enviroments import WEB_APP_ADDRESS
 
 
 def create_app():
