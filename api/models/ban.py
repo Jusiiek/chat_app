@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from models import User
+from models.user import User
 
 class Ban(BaseModel):
 	user: User

@@ -2,10 +2,7 @@ from datetime import date
 
 from pydantic import BaseModel
 
-
-class Role(BaseModel):
-	name: str
-	pseudo_name: str
+from models.roel import Role
 
 
 class User(BaseModel):
