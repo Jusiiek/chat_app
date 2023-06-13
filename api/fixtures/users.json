@@ -1,0 +1,32 @@
+[
+  {
+    "email": "super_admin@example.com",
+    "username": "Great Admin",
+    "password": "T3stC00mon",
+    "role": "SUPER_ADMIN"
+  },
+  {
+    "email": "admin@example.com",
+    "username": "Simple Admin",
+    "password": "Simpl3@dmin",
+    "role": "ADMIN"
+  },
+    {
+    "email": "user@example.com",
+    "username": "Subscriber Plus",
+    "password": "Subscr&b3rPlus",
+    "role": "SUBSCRIBER_PLUS"
+  },
+  {
+    "email": "user@example.com",
+    "username": "Subscriber",
+    "password": "Subscr&b3r",
+    "role": "SUBSCRIBER"
+  },
+  {
+    "email": "user@example.com",
+    "username": "User",
+    "password": "Us3rIsM3",
+    "role": "User"
+  }
+]

@@ -3,3 +3,7 @@ dev_install_requirements:
 
 dev_run:
 	@python app.py
+
+
+check_code:
+	@flake8 .

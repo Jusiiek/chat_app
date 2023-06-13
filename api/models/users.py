@@ -11,6 +11,6 @@ class User(BaseModel):
 	created_at = DateField(default=datetime.now())
 	updated_at = DateField(default=datetime.now())
 	last_logged = DateField(default=datetime.now())
-	role_id = StringField(max_length=100)
+	role = StringField(max_length=100)
 	is_active = BooleanField(default=False)
 	banned = BooleanField(default=False)
