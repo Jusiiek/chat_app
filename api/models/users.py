@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from mongoengine import StringField, DateField, BooleanField
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 
 class User(BaseModel):
@@ -14,3 +14,9 @@ class User(BaseModel):
 	role = StringField(max_length=100)
 	is_active = BooleanField(default=False)
 	banned = BooleanField(default=False)
+
+	@validator("password")
+	def valid_password(self, p: str):
+		if p and len(p) < 8:
+			raise ValueError("Password should be at least 8 characters")
+		return p
