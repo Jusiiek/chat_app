@@ -1,4 +1,4 @@
 [flake8]
 max-line-length = 100
-ignore = E731,W503,E231,E203,W191
+ignore = E731,W503,E231,E203,W191,E101
 exclude = .venv

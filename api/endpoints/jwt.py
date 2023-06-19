@@ -2,6 +2,6 @@ from fastapi import APIRouter
 
 
 router = APIRouter(
-	prefix="/api/user",
-	tags=['users']
+	prefix="/api/jwt",
+	tags=['jwt']
 )
