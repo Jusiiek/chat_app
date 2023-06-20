@@ -9,7 +9,7 @@ from config.enviroments import WEB_APP_ADDRESS
 
 def create_app():
 	app = FastAPI()
-	connect_db()
+	session_db = connect_db()
 	app.add_event_handler("shutdown", close_connection)
 	app.middleware('http')(headers_middleware)
 	app.add_middleware(
@@ -20,10 +20,10 @@ def create_app():
 		allow_headers=["*"],
 	)
 
-	return app
+	return app, session_db
 
 
-app = create_app()
+app, session_db = create_app()
 
 
 def run_server():
