@@ -3,14 +3,14 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from config.app_middlewares import headers_middleware
-from config.mongo_config import close_db, connect_db
+from config.db_config import connect_db, close_connection
 from config.enviroments import WEB_APP_ADDRESS
 
 
 def create_app():
 	app = FastAPI()
 	connect_db()
-	app.add_event_handler("shutdown", close_db)
+	app.add_event_handler("shutdown", close_connection)
 	app.middleware('http')(headers_middleware)
 	app.add_middleware(
 		CORSMiddleware,
