@@ -6,7 +6,6 @@ load_dotenv()
 
 # basics settings
 WEB_APP_ADDRESS = os.environ['WEB_APP_ADDRESS']
-MONGO_URL = os.environ['MONGO_URL']
 CLUSTER_NAME = os.environ['CLUSTER_NAME']
 DB_USERNAME = os.environ['DB_USERNAME']
 DB_PASSWORD = os.environ['DB_PASSWORD']
