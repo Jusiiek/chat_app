@@ -1,11 +1,14 @@
 version: '3.8'
 
-services:
-  mongo_db:
-    image: mongo:latest
-    container_name: 'mongo_db'
-    ports:
-      - '27017:27017'
+#CASSANDRA_USER default cassandra
+#CASSANDRA_PASSWORD default cassandra
 
-volumes:
-  data:
+services:
+  cassandra_db:
+    image: cassandra:4
+    restart: always
+    container_name: 'cassandra_db'
+    ports:
+      - '9042:9042'
+    environment:
+      CASSANDRA_CLUSTER_NAME: "chatapp"
