@@ -26,6 +26,17 @@ def create_app():
 app, session_db = create_app()
 
 
+@app.on_event('startup')
+def get_routes():
+	from endpoints import (
+		jwt,
+		users
+	)
+
+	app.include_router(jwt.router)
+	app.include_router(users.router)
+
+
 def run_server():
 	uvicorn.run(
 		app="app:app",
