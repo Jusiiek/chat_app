@@ -10,3 +10,4 @@ class UserRegisterSchema(BaseModel):
 	email: str
 	username: str
 	password: str
+	re_password: str

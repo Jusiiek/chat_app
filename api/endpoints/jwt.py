@@ -2,7 +2,8 @@ from datetime import datetime
 
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from app import session_db
+from config.db_config import get_sql_db
+
 from models.users import User
 from scheme.users import UserLoginSchema, UserRegisterSchema
 from dependencies.users import authenticate_user, create_access_token
@@ -14,9 +15,18 @@ router = APIRouter(
 )
 
 
+@router.get("/test/")
+def jwt_login(db=Depends(get_sql_db)):
+	user = db.query(User).all()
+	print(user)
+	return {
+		"Connected": "HELLO"
+	}
+
+
 @router.post("/login/")
-def jwt_login(login_data: UserLoginSchema, db: Depends(session_db)):
-	user = authenticate_user(db, login_data['username'], login_data['password'])
+def jwt_login(login_data: UserLoginSchema):
+	user = authenticate_user(login_data['username'], login_data['password'])
 	if not user:
 		raise HTTPException(
 			status_code=status.HTTP_401_UNAUTHORIZED,
@@ -25,28 +35,36 @@ def jwt_login(login_data: UserLoginSchema, db: Depends(session_db)):
 		)
 
 	access_token = create_access_token(data={"sub": user.username})
-	return {"access_token": access_token, "token_type": "bearer"}
+	return {"access_token": access_token,
+		"user_data": user,
+		"token_type": "bearer"
+	}
 
 
 @router.post("/register/")
-def jwt_register(payload: UserRegisterSchema, db:Depends(session_db)):
-	passw = payload['password']
-	re_passw = payload['re_password']
+def jwt_register(payload: UserRegisterSchema, db=Depends(get_sql_db)):
+	print(payload)
 
+	passw = payload.password
+	re_passw = payload.re_password
+
+
+	print("==========================", passw)
 	if passw != re_passw:
 		raise HTTPException(
 			status_code=status.HTTP_400_BAD_REQUEST,
 			detail="Passwords don't match",
 		)
 
-	existed_user = authenticate_user(db, payload['username'], passw)
+	print("AFTER PASS COMPARE")
+	existed_user = authenticate_user(payload.username, passw, db)
 	if existed_user:
 		raise HTTPException(
 			status_code=status.HTTP_400_BAD_REQUEST,
 			detail="Username already in use",
 		)
 
-	check_email = db.query(User).get(email=payload['email'])
+	check_email = db.query(User).get(email=payload.email)
 	if check_email:
 		raise HTTPException(
 			status_code=status.HTTP_400_BAD_REQUEST,

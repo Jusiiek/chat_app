@@ -1,7 +1,9 @@
-FROM debian:11
+FROM python:3.11-alpine
 
-RUN source ./.venv/bin/activate
-RUN pip install -r ./requirements.txt
-RUN cd ./api
+WORKDIR .
 
-CMD ["make", "dev_run"]
+COPY ./requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY ./ .
+CMD ["python", "-m", "uvicorn", "app:app", "--reload"]

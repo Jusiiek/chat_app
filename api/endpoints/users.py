@@ -1,7 +1,5 @@
 from fastapi import APIRouter, Depends
 
-from app import session_db
-
 from typing import Annotated
 
 from dependencies.users import get_current_user
@@ -15,5 +13,5 @@ router = APIRouter(
 
 
 @router.get("/")
-def get_users(user: Depends(get_current_user), db: session_db):
+def get_users(user: Depends(get_current_user)):
 	print("User", user)

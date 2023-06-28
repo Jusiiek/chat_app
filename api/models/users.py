@@ -1,21 +1,28 @@
 from datetime import datetime
 
-from pydantic import BaseModel, validator
+from sqlalchemy import Column, ForeignKey, String, DateTime, Boolean, text
+from sqlalchemy.dialects.mysql import INTEGER
 
+from models import Base
 
-class User(BaseModel):
-	email: str
-	username: str
-	password: str
-	created_at: datetime
-	updated_at: datetime
-	last_logged: datetime
-	role: str
-	is_active: bool
-	banned: bool
+class User(Base):
+    __tablename__ = "Users"
 
-	@validator("password")
-	def valid_password(cls, p: str):
-		if p and len(p) < 8:
-			raise ValueError("Password should be at least 8 characters")
-		return p
+    user_id = Column(INTEGER(unsigned=True), primary_key=True, nullable=False, autoincrement=True)
+    email = Column(String(100), nullable=False, unique=True)
+    username = Column(String(100), nullable=False, unique=True)
+    password = Column(String(200), nullable=False, unique=True)
+    created_at = Column(
+        DateTime, default=datetime.now, server_default=text("NOW()"), nullable=False
+    )
+    updated_at = Column(
+        DateTime, default=datetime.now, server_default=text("NOW()"), nullable=False
+    )
+    last_logged = Column(
+        DateTime, default=datetime.now, server_default=text("NOW()"), nullable=False
+    )
+    role_id = Column(
+        ForeignKey("Role.role_id", ondelete="CASCADE"), nullable=False, default=5
+    )
+    is_active = Column(Boolean, default=False)
+    banned = Column(Boolean, default=False)

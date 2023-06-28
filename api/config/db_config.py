@@ -1,15 +1,29 @@
-from cassandra.cluster import Cluster
-from cassandra.auth import PlainTextAuthProvider
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
-from config.enviroments import DB_USERNAME, DB_PASSWORD
+from config.enviroments import MARIA_URL
 
-auth_provider = PlainTextAuthProvider(username=DB_USERNAME, password=DB_PASSWORD)
-cluster = Cluster(['0.0.0.0'], auth_provider=auth_provider)
+# seconds
+SQLALCHEMY_CONNECTION_TIMEOUT = 60
+mysql_engine = create_engine(
+	MARIA_URL,
+	connect_args=dict(
+		connect_timeout=SQLALCHEMY_CONNECTION_TIMEOUT,
+		use_unicode=True
+	),
+	pool_size=20,
+	max_overflow=5,
+)
 
+# pool_size: Specifies the number of database connections to pool.
+# max_overflow: Sets the maximum number of connections that can be created beyond the pool_size when needed.
+# This allows for handling occasional spikes in connection demand.
 
-def connect_db():
-	return cluster.connect()
+CHAT_APP_SESSION = sessionmaker(bind=mysql_engine)
 
-
-def close_connection():
-	return cluster.shutdown()
+def get_sql_db():
+	db = CHAT_APP_SESSION()
+	try:
+		yield db
+	finally:
+		db.close()
