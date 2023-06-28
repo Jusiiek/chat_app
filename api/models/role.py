@@ -5,7 +5,7 @@ from models import Base
 
 
 class Role(Base):
-	__tablename__ = "Roles"
+	__tablename__ = "Role"
 
 	role_id = Column(INTEGER(unsigned=True), primary_key=True, nullable=False, autoincrement=True)
 	name = Column(String(20), nullable=False)

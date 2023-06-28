@@ -11,3 +11,7 @@ dev_run_uvicorn:
 
 check_code:
 	@flake8 .
+
+
+db_setup_and_load_fixtures:
+

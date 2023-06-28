@@ -5,7 +5,7 @@ from models import Base
 
 
 class Ban(Base):
-	__tablename__ = "Bans"
+	__tablename__ = "Ban"
 
 	ban_id = Column(INTEGER(unsigned=True), primary_key=True, nullable=False, autoincrement=True)
 	user_id = Column(ForeignKey("User.user_id", ondelete="CASCADE"), nullable=False)

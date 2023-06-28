@@ -6,7 +6,7 @@ from sqlalchemy.dialects.mysql import INTEGER
 from models import Base
 
 class User(Base):
-    __tablename__ = "Users"
+    __tablename__ = "User"
 
     user_id = Column(INTEGER(unsigned=True), primary_key=True, nullable=False, autoincrement=True)
     email = Column(String(100), nullable=False, unique=True)
