@@ -1,6 +1,4 @@
-from datetime import datetime
-
-from sqlalchemy import Column, String, DateTime, Boolean, text
+from sqlalchemy import Column, String
 from sqlalchemy.dialects.mysql import INTEGER
 
 from models import Base

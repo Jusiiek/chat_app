@@ -1,6 +1,4 @@
-from datetime import datetime
-
-from sqlalchemy import Column, ForeignKey, String, DateTime, text
+from sqlalchemy import Column, ForeignKey, String
 from sqlalchemy.dialects.mysql import INTEGER
 
 from models import Base
