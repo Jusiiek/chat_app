@@ -6,12 +6,12 @@ from sqlalchemy.dialects.mysql import INTEGER
 from models import Base
 
 class User(Base):
-    __tablename__ = "User"
+    __tablename__ = "Users"
 
     user_id = Column(INTEGER(unsigned=True), primary_key=True, nullable=False, autoincrement=True)
     email = Column(String(100), nullable=False, unique=True)
     username = Column(String(100), nullable=False, unique=True)
-    password = Column(String(200), nullable=False, unique=True)
+    password = Column(String(200), nullable=False)
     created_at = Column(
         DateTime, default=datetime.now, server_default=text("NOW()"), nullable=False
     )
