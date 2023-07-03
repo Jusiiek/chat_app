@@ -1,8 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from cassandra.cluster import Cluster, ExecutionProfile, EXEC_PROFILE_DEFAULT
-from cassandra.policies import WhiteListRoundRobinPolicy, DowngradingConsistencyRetryPolicy
-from cassandra.query import tuple_factory
+from cassandra.cluster import Cluster, ExecutionProfile
+from cassandra.policies import WhiteListRoundRobinPolicy
 from cassandra.auth import PlainTextAuthProvider
 
 from config.enviroments import (
@@ -17,7 +16,8 @@ from config.enviroments import (
 SQLALCHEMY_CONNECTION_TIMEOUT = 60
 
 # pool_size: Specifies the number of database connections to pool.
-# max_overflow: Sets the maximum number of connections that can be created beyond the pool_size when needed.
+# max_overflow: Sets the maximum number of connections
+# that can be created beyond the pool_size when needed.
 # This allows for handling occasional spikes in connection demand.
 mysql_engine = create_engine(
 	MARIA_URL,

@@ -41,7 +41,7 @@ async def inject_data_from_excel(file: str):
 		for index, sheet in enumerate(sheet_names):
 
 			print(f"\n\t Handling table {sheet} {(index+1) / {len(sheet_names)}}")
-			print(f"\t\t Reading data...")
+			print("\t\t Reading data...")
 
 			df = data_file.parse(sheet)
 			print(df.columns)

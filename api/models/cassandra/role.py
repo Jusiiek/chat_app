@@ -3,6 +3,7 @@ import uuid
 from cassandra.cqlengine.models import Model
 from cassandra.cqlengine import columns
 
+
 class Role(Model):
 	__table_name__ = "Roles"
 

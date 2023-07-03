@@ -23,6 +23,7 @@ def create_app():
 
 app = create_app()
 
+
 @app.on_event('startup')
 def get_routes():
 	from endpoints import (

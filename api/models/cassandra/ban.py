@@ -5,6 +5,7 @@ from datetime import datetime
 from cassandra.cqlengine.models import Model
 from cassandra.cqlengine import columns
 
+
 class Ban(Model):
 	__table_name__ = "Bans"
 
