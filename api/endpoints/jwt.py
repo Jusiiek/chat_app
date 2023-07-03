@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 
 from config.db_config import get_sql_db
 
-from models.users import User
+from models import User
 from scheme.users import UserLoginSchema, UserRegisterSchema
 from dependencies.users import authenticate_user, create_access_token
 

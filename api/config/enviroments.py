@@ -8,7 +8,13 @@ load_dotenv()
 
 # basics settings
 WEB_APP_ADDRESS = os.environ['WEB_APP_ADDRESS']
-MARIA_DB_HOST = os.environ['MARIA_DB_HOST']
+
+DB_HOST = os.environ['DB_HOST']
+
+CASSANDRA_DB_USERNAME = os.environ['CASSANDRA_DB_USERNAME']
+CASSANDRA_DB_PASSWORD = os.environ['CASSANDRA_DB_PASSWORD']
+CASSANDRA_PORT = os.environ['CASSANDRA_PORT']
+
 MARIA_PORT = os.environ['MARIA_PORT']
 MARIA_DB_NAME = os.environ['MARIA_DB_NAME']
 MARIA_DB_USERNAME = os.environ['MARIA_DB_USERNAME']
@@ -17,7 +23,7 @@ MARIA_URL = URL.create(
 	drivername="mysql+pymysql",
 	username=MARIA_DB_USERNAME,
 	password=MARIA_DB_PASSWORD,
-	host=MARIA_DB_HOST,
+	host=DB_HOST,
 	port=MARIA_PORT,
 	database=MARIA_DB_NAME
 )

@@ -23,9 +23,9 @@ def cli():
 @cli.command('mariadb-setup-tables')
 async def setup_mariadb():
 	def get_tables():
-		from models.role import Role
-		from models.users import User
-		from models.ban import Ban
+		from models import Role
+		from models import User
+		from models import Ban
 
 		return (
 			Role,

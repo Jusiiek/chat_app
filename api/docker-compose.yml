@@ -1,9 +1,17 @@
 version: '3.8'
 
-#CASSANDRA_USER default cassandra
-#CASSANDRA_PASSWORD default cassandra
-
 services:
+  cassandra_db:
+    image: cassandra:4
+    restart: always
+    container_name: 'cassandra_db'
+    ports:
+      - "9042:9042"
+    environment:
+      CASSANDRA_CLUSTER_NAME: "chatapp"
+      CASSANDRA_USER: "chatapp_cass"
+      CASSANDRA_PASSWORD: "Ch@t@pp_cass"
+
   mysql_db:
     image: mysql:8.0
     restart: always
@@ -11,7 +19,7 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_DATABASE: "chatapp"
-      MYSQL_USER: "chatapp"
-      MYSQL_PASSWORD: "Ch@t@pp"
-      MYSQL_ROOT_PASSWORD: "Ch@t@pp"
+      MYSQL_DATABASE: "chatapp_maria"
+      MYSQL_USER: "chatapp_maria"
+      MYSQL_PASSWORD: "Ch@t@pp_maria"
+      MYSQL_ROOT_PASSWORD: "Ch@t@pp_maria"
