@@ -4,7 +4,7 @@ from functools import wraps
 
 from config.db_config import mysql_engine
 from models import Base
-from utils import inject_data_from_excel
+from utils.utils import inject_data_from_excel
 
 
 def coroutine(f):
