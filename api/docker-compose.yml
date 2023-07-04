@@ -11,6 +11,8 @@ services:
       CASSANDRA_CLUSTER_NAME: "chatapp"
       CASSANDRA_USER: "chatapp_cass"
       CASSANDRA_PASSWORD: "Ch@t@pp_cass"
+    volumes:
+      - ./data:/var/lib/cassandra
 
   mysql_db:
     image: mysql:8.0
@@ -23,3 +25,5 @@ services:
       MYSQL_USER: "chatapp_maria"
       MYSQL_PASSWORD: "Ch@t@pp_maria"
       MYSQL_ROOT_PASSWORD: "Ch@t@pp_maria"
+    volumes:
+      - ./data:/var/lib/mysql

@@ -4,11 +4,13 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from config.app_middlewares import headers_middleware
 from config.enviroments import WEB_APP_ADDRESS
+from config.db_config import cassandra_connect, cassandra_close
 
 
 def create_app():
 	app = FastAPI()
-	# app.add_event_handler("shutdown", close_connection)
+	cassandra_connect()
+	app.add_event_handler("shutdown", cassandra_close)
 	app.middleware('http')(headers_middleware)
 	app.add_middleware(
 		CORSMiddleware,

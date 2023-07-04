@@ -31,10 +31,20 @@ mysql_engine = create_engine(
 CHAT_APP_SESSION = sessionmaker(bind=mysql_engine)
 
 
-node1_profile = ExecutionProfile(load_balancing_policy=WhiteListRoundRobinPolicy(['0.0.0.1']),
-                                 request_timeout=10)
-node2_profile = ExecutionProfile(load_balancing_policy=WhiteListRoundRobinPolicy(['0.0.0.2']),
-                                 request_timeout=10)
+def get_sql_db():
+	db = CHAT_APP_SESSION()
+	try:
+		yield db
+	finally:
+		db.close()
+
+
+node1_profile = ExecutionProfile(
+	load_balancing_policy=WhiteListRoundRobinPolicy(['0.0.0.1']), request_timeout=10
+)
+node2_profile = ExecutionProfile(
+	load_balancing_policy=WhiteListRoundRobinPolicy(['0.0.0.2']), request_timeout=10
+)
 profiles = {'node1': node1_profile, 'node2': node2_profile}
 
 auth_provider = PlainTextAuthProvider(
@@ -47,12 +57,11 @@ cluster = Cluster(
 	auth_provider=auth_provider,
 	execution_profiles=profiles
 )
-cassandra_session = cluster.connect()
 
 
-def get_sql_db():
-	db = CHAT_APP_SESSION()
-	try:
-		yield db
-	finally:
-		db.close()
+def cassandra_connect():
+	return cluster.connect()
+
+
+def cassandra_close():
+	return cluster.shutdown()
