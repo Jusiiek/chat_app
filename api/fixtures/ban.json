@@ -1,0 +1,8 @@
+[
+  {
+    "ban_id": 1,
+    "user_id": 6,
+    "reason": "Fixtures reason for test",
+    "created_by": "admin@example.com"
+  }
+]

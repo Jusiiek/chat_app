@@ -1,31 +1,43 @@
 [
   {
+    "user_id": 1,
     "email": "super_admin@example.com",
     "username": "Great Admin",
     "password": "T3stC00mon",
     "role": "SUPER_ADMIN"
   },
   {
+    "user_id": 2,
     "email": "admin@example.com",
     "username": "Simple Admin",
     "password": "Simpl3@dmin",
     "role": "ADMIN"
   },
-    {
+  {
+    "user_id": 3,
     "email": "user@example.com",
     "username": "Subscriber Plus",
     "password": "Subscr&b3rPlus",
     "role": "SUBSCRIBER_PLUS"
   },
   {
+    "user_id": 4,
     "email": "user@example.com",
     "username": "Subscriber",
     "password": "Subscr&b3r",
     "role": "SUBSCRIBER"
   },
   {
+    "user_id": 5,
     "email": "user@example.com",
     "username": "User",
+    "password": "Us3rIsM3",
+    "role": "User"
+  },
+  {
+    "user_id": 6,
+    "email": "banned_user@example.com",
+    "username": "Banned_User",
     "password": "Us3rIsM3",
     "role": "User"
   }
