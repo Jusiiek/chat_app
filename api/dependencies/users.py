@@ -55,6 +55,4 @@ async def get_current_user_by_token(token: Annotated[str, Depends(oauth2_scheme)
 async def get_current_user(
     current_user: Annotated[User, Depends(get_current_user_by_token)]
 ):
-    if current_user.banned:
-        raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
