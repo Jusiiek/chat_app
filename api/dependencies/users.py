@@ -11,6 +11,7 @@ from utils.auth_utils import (
     get_user_by_username,
     verify_password
 )
+from models.cassandra.users import User
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -35,7 +36,7 @@ def create_token(data: dict):
     return encoded_jwt
 
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+async def get_current_user_by_token(token: Annotated[str, Depends(oauth2_scheme)]):
     http_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid authentication credentials",
@@ -49,3 +50,11 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
 
     user = get_user_by_username(username)
     return user
+
+
+async def get_current_user(
+    current_user: Annotated[User, Depends(get_current_user_by_token)]
+):
+    if current_user.banned:
+        raise HTTPException(status_code=400, detail="Inactive user")
+    return current_user
