@@ -2,6 +2,10 @@ from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
+from cassandra.cqlengine.management import (
+	sync_table,
+	drop_table,
+)
 
 from config.db_config import get_sql_db
 
@@ -13,7 +17,37 @@ from models.cassandra import (
 	ban
 )
 
+
+async def get_cassandra_models():
+	from models.cassandra.role import Role
+	from models.cassandra.users import User
+	from models.cassandra.ban import Ban
+
+	return (
+		Role,
+		User,
+		Ban
+	)
+
+
+async def drop_all_cassandra_tables():
+	print("DROPPING ALL TABLES FOR CASSANDRA")
+	cassandra_models = await get_cassandra_models()
+	for model in cassandra_models:
+		print(f"Dropped {model}")
+		drop_table(model)
+
+
+async def create_cassandra_tables():
+	print("CREATING ALL TABLES FOR CASSANDRA")
+	cassandra_models = await get_cassandra_models()
+	for model in cassandra_models:
+		sync_table(model)
+
+
 async def inject_model_data(model, file: str):
+	print(f"INJECTING DATA FOR {model.__name__}s")
+	print(Path(__file__).parent.resolve() / file)
 	model_data = read_json(Path(__file__).parent.resolve() / file)
 
 	if model_data:
