@@ -11,5 +11,5 @@ check_code:
 	@flake8 .
 
 db_setup_and_load_fixtures:
-	@python cli.py mariadb-setup-tables
-	@python cli.py database-load-fixtures --chat-app-data
+	@python cli.py cassandra-setup
+	@python cli.py database-load-fixtures -c

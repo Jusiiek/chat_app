@@ -2,9 +2,17 @@ import click
 import asyncio
 from functools import wraps
 
-# from config.db_config import mysql_engine
 # from models.sql import Base
-from utils.fixture_utils import inject_data_from_excel, inject_json_data
+from config.db_config import (
+	cassandra_connect,
+	cassandra_close
+)
+from utils.fixture_utils import (
+	inject_data_from_excel,
+	inject_json_data,
+	drop_all_cassandra_tables,
+	create_cassandra_tables
+)
 
 
 def coroutine(f):
@@ -42,9 +50,20 @@ def cli():
 # 	click.echo("MariaDB successfully initialized")
 
 
+@cli.command('cassandra-setup')
+@coroutine
+async def setup_cassandra():
+	print("RUNNING SETUP CASSANDRA")
+	cassandra_connect()
+	await drop_all_cassandra_tables()
+	await create_cassandra_tables()
+	cassandra_close()
+
+
 @cli.command('database-load-fixtures')
 @click.option('-c', '--cassandra', is_flag=True, help="Injection data for cassandra")
 @click.option('-m', '--mysql', is_flag=True, help="Injection data for mysql")
+@coroutine
 async def injection_fixtures(cassandra, mysql):
 	if cassandra:
 		await inject_json_data()
@@ -55,6 +74,5 @@ async def injection_fixtures(cassandra, mysql):
 		click.echo("Injected fixtures for mysql")
 
 
-if __name__ == '__name__':
-	print("STARTING")
+if __name__ == '__main__':
 	cli()
