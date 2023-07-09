@@ -38,14 +38,14 @@ def jwt_login(login_data: UserLoginSchema):
 
 @router.post("/register/")
 def jwt_register(payload: UserRegisterSchema):
-	if payload['password'] != payload['re_password']:
+	if payload.password != payload.re_password:
 		raise HTTPException(
 			status_code=status.HTTP_400_BAD_REQUEST,
 			detail="Passwords don't match",
 			headers={"WWW-Authenticate": "Bearer"},
 		)
 
-	valid_password_error = valid_password(payload['password'])
+	valid_password_error = valid_password(payload.password)
 	if valid_password_error:
 		raise HTTPException(
 			status_code=status.HTTP_400_BAD_REQUEST,
@@ -54,7 +54,7 @@ def jwt_register(payload: UserRegisterSchema):
 		)
 
 	valid_user_errors = valid_user_in_db(
-		payload['email'], payload['username']
+		payload.email, payload.username
 	)
 
 	if valid_user_errors:
@@ -65,11 +65,11 @@ def jwt_register(payload: UserRegisterSchema):
 		)
 
 	new_user = User.create(
-		email=payload['email'],
-		username=payload['username'],
-		password=create_hash_password(payload['password']),
+		email=payload.email,
+		username=payload.username,
+		password=create_hash_password(payload.password),
 		role_name="User"
 	)
-	new_user.save()
+	# new_user.save()
 
 	return new_user

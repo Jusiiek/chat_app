@@ -22,14 +22,16 @@ def create_hash_password(password: str):
 
 def get_user_by_username(username: str):
 	if username:
-		user = User.objects(username=username)[0]
-		return user if user else None
+		user = User.objects.filter(username=username)
+		print(user)
+		return user.first() if user else None
 
 
 def get_user_by_email(email: str):
 	if email:
-		user = User.objects(email=email)[0]
-		return user if user else None
+		user = User.objects.filter(email=email)
+		print(user)
+		return user.first() if user else None
 
 
 def valid_user_in_db(email: str, username: str):

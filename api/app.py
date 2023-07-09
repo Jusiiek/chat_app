@@ -27,7 +27,7 @@ app = create_app()
 
 
 @app.on_event('startup')
-def get_routes():
+def register_routes():
 	from endpoints import (
 		jwt,
 		# users
