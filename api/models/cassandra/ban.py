@@ -5,11 +5,13 @@ from datetime import datetime
 from cassandra.cqlengine.models import Model
 from cassandra.cqlengine import columns
 
+from config.enviroments import CASSANDRA_CLUSTER_NAME
+
 
 class Ban(Model):
 	__table_name__ = "Bans"
-	__keyspace__ = "chatapp"
-	__connection__ = 'chatapp'
+	__keyspace__ = CASSANDRA_CLUSTER_NAME
+	__connection__ = CASSANDRA_CLUSTER_NAME
 
 	ban_id = columns.UUID(primary_key=True, required=True, default=uuid.uuid4)
 	user_id = columns.Integer(required=True)

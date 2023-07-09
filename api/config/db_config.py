@@ -11,7 +11,8 @@ from config.enviroments import (
 	DB_HOST,
 	CASSANDRA_DB_USERNAME,
 	CASSANDRA_DB_PASSWORD,
-	CASSANDRA_PORT
+	CASSANDRA_PORT,
+	CASSANDRA_CLUSTER_NAME
 )
 
 # seconds
@@ -63,9 +64,9 @@ cluster = Cluster(
 
 def cassandra_connect():
 	session = cluster.connect()
-	connection.register_connection('chatapp', session=session)
+	connection.register_connection(CASSANDRA_CLUSTER_NAME, session=session)
 	create_keyspace_simple(
-		name="chatapp", connections=["chatapp"], replication_factor=4
+		name=CASSANDRA_CLUSTER_NAME, connections=[CASSANDRA_CLUSTER_NAME], replication_factor=4
 	)
 
 
