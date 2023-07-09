@@ -12,8 +12,12 @@ def verify_password(plain_password: str, hash_password: str):
 	pwd_context.verify(plain_password, hash_password)
 
 
-def get_has_password(password: str):
+def get_hash_password(password: str):
 	pwd_context.hash(password)
+
+
+def create_hash_password(password: str):
+	return pwd_context.hash(password)
 
 
 def get_user_by_username(username: str):

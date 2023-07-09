@@ -1,8 +1,14 @@
+from datetime import datetime
+
 from fastapi import APIRouter, HTTPException, status
 
 from scheme.users import UserLoginSchema, UserRegisterSchema
 from dependencies.users import authenticate_user, create_token
-from utils.auth_utils import valid_user_in_db, valid_password
+from utils.auth_utils import (
+	valid_user_in_db,
+	valid_password,
+	create_hash_password
+)
 
 from models.cassandra.users import User
 
@@ -22,6 +28,7 @@ def jwt_login(login_data: UserLoginSchema):
 			headers={"WWW-Authenticate": "Bearer"},
 		)
 	access_token = create_token(data={"user": user.username})
+	user.last_logged = datetime.now()
 	return {
 		"token": access_token,
 		"token_type": "bearer",
@@ -58,8 +65,11 @@ def jwt_register(payload: UserRegisterSchema):
 		)
 
 	new_user = User.create(
-		**payload,
-		role_id=5
+		email=payload['email'],
+		username=payload['username'],
+		password=create_hash_password(payload['password']),
+		role_name="User"
 	)
+	new_user.save()
 
 	return new_user
