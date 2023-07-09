@@ -3,6 +3,8 @@ from sqlalchemy.orm import sessionmaker
 from cassandra.cluster import Cluster, ExecutionProfile
 from cassandra.policies import WhiteListRoundRobinPolicy
 from cassandra.auth import PlainTextAuthProvider
+from cassandra.cqlengine import connection
+from cassandra.cqlengine.management import create_keyspace_simple
 
 from config.enviroments import (
 	MARIA_URL,
@@ -60,8 +62,13 @@ cluster = Cluster(
 
 
 def cassandra_connect():
-	return cluster.connect()
+	session = cluster.connect()
+	connection.register_connection('chatapp', session=session)
+	create_keyspace_simple(
+		name="chatapp", connections=["chatapp"], replication_factor=4
+	)
 
 
 def cassandra_close():
-	return cluster.shutdown()
+	cluster.shutdown()
+	connection.unregister_connection('chatapp')
