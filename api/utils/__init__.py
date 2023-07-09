@@ -12,7 +12,7 @@ def is_user_admin(role):
 	return any(role in ADMIN_ROLES)
 
 
-def read_json(file_path: Path) -> dict:
+def read_json(file_path: str) -> dict:
 	if not file_path.is_file():
 		return {}
 
@@ -20,4 +20,5 @@ def read_json(file_path: Path) -> dict:
 		with file_path.open("r") as rf:
 			return json.load(rf)
 	except (json.JSONDecoder, FileNotFoundError):
+		print("Couldn't find json file. 😢")
 		return {}
