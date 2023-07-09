@@ -10,6 +10,7 @@ from cassandra.cqlengine.management import (
 from config.db_config import get_sql_db
 
 from utils import read_json
+from utils.auth_utils import create_hash_password
 
 from models.cassandra.role import Role
 from models.cassandra.users import User
@@ -46,9 +47,21 @@ async def inject_model_data(model, file: str):
 	model_data = read_json(file_path)
 
 	if model_data:
-		for data in model_data:
-			new_model = model.create(**data)
-			new_model.save()
+		if model.__name__ == "User":
+			for data in model_data:
+				user_pass = data.pop('password')
+				new_model = model.create(
+					**data,
+					password=create_hash_password(user_pass)
+				)
+				new_model.save()
+		else:
+			for data in model_data:
+				new_model = model.create(
+					**data,
+				)
+				new_model.save()
+
 		print(f"Created {len(model_data)} {model.__name__}s")
 
 
