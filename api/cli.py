@@ -66,7 +66,9 @@ async def setup_cassandra():
 @coroutine
 async def injection_fixtures(cassandra, mysql):
 	if cassandra:
+		cassandra_connect()
 		await inject_json_data()
+		cassandra_close()
 		click.echo("Injected fixtures for cassandra")
 
 	if mysql:
