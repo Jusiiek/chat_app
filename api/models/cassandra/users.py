@@ -7,6 +7,8 @@ from cassandra.cqlengine import columns
 
 class User(Model):
     __table_name__ = "Users"
+    __keyspace__ = "chatapp"
+    __connection__ = 'chatapp'
 
     user_id = columns.UUID(primary_key=True, required=True, default=uuid.uuid4)
     email = columns.Text(max_length=100, required=True)

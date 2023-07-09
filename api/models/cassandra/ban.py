@@ -8,6 +8,8 @@ from cassandra.cqlengine import columns
 
 class Ban(Model):
 	__table_name__ = "Bans"
+	__keyspace__ = "chatapp"
+	__connection__ = 'chatapp'
 
 	ban_id = columns.UUID(primary_key=True, required=True, default=uuid.uuid4)
 	user_id = columns.Integer(required=True)
