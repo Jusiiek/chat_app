@@ -32,10 +32,10 @@ def valid_user_in_db(email: str, username: str):
 	if email and username:
 		user = get_user_by_email(email)
 		if user:
-			return {"error": "User"}
+			return {"error": "Email"}
 		user = get_user_by_username(username)
 		if user:
-			return {"error": "Email"}
+			return {"error": "User"}
 
 
 def valid_password(password: str):
