@@ -1,26 +1,21 @@
 [
   {
-    "role_id": 1,
     "name": "SUPER_ADMIN",
     "pseudo_name": "GREAT LORD"
   },
   {
-    "role_id": 2,
     "name": "ADMIN",
     "pseudo_name": "GREAT KNIGHT"
   },
   {
-    "role_id": 3,
     "name": "SUBSCRIBER_PLUS",
     "pseudo_name": "NOBLEMAN"
   },
   {
-    "role_id": 4,
     "name": "SUBSCRIBER",
     "pseudo_name": "BURGHER"
   },
   {
-    "role_id": 5,
     "name": "USER",
     "pseudo_name": "COMMONERS"
   }
