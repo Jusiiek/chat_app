@@ -64,9 +64,15 @@ cluster = Cluster(
 
 def cassandra_connect():
 	session = cluster.connect()
-	connection.register_connection(CASSANDRA_CLUSTER_NAME, session=session)
+	connection.register_connection(
+		CASSANDRA_CLUSTER_NAME,
+		session=session,
+		default=True
+	)
 	create_keyspace_simple(
-		name=CASSANDRA_CLUSTER_NAME, connections=[CASSANDRA_CLUSTER_NAME], replication_factor=4
+		name=CASSANDRA_CLUSTER_NAME,
+		connections=[CASSANDRA_CLUSTER_NAME],
+		replication_factor=4
 	)
 
 

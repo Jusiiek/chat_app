@@ -11,18 +11,12 @@ from config.db_config import get_sql_db
 
 from utils import read_json
 
-from models.cassandra import (
-	users,
-	role,
-	ban
-)
+from models.cassandra.role import Role
+from models.cassandra.users import User
+from models.cassandra.ban import Ban
 
 
 async def get_cassandra_models():
-	from models.cassandra.role import Role
-	from models.cassandra.users import User
-	from models.cassandra.ban import Ban
-
 	return (
 		Role,
 		User,
@@ -34,8 +28,8 @@ async def drop_all_cassandra_tables():
 	print("DROPPING ALL TABLES FOR CASSANDRA")
 	cassandra_models = await get_cassandra_models()
 	for model in cassandra_models:
-		print(f"Dropped {model}")
 		drop_table(model)
+		print(f"Dropped {model.__name__}s table")
 
 
 async def create_cassandra_tables():
@@ -43,23 +37,24 @@ async def create_cassandra_tables():
 	cassandra_models = await get_cassandra_models()
 	for model in cassandra_models:
 		sync_table(model)
+		print(f"CREATED {model.__name__}s table")
 
 
 async def inject_model_data(model, file: str):
 	print(f"INJECTING DATA FOR {model.__name__}s")
-	print(Path(__file__).parent.resolve() / file)
-	model_data = read_json(Path(__file__).parent.resolve() / file)
+	file_path = Path(__file__).parent.parent.resolve() / f"fixtures/{file}"
+	model_data = read_json(file_path)
 
 	if model_data:
 		for data in model_data:
-			await model(**data)
-	print(f"Created {len(model_data)} {model.__name__}s")
+			new_model = model.create(**data)
+			new_model.save()
+		print(f"Created {len(model_data)} {model.__name__}s")
 
 
 async def inject_json_data():
-	await inject_model_data(role.Role, "role.json")
-	await inject_model_data(users.User, "users.json")
-	await inject_model_data(ban.Ban, "ban.json")
+	await inject_model_data(Role, "role.json")
+	await inject_model_data(User, "users.json")
 
 
 async def inject_data_from_excel(file: str):
@@ -67,7 +62,7 @@ async def inject_data_from_excel(file: str):
 	date_now = datetime.now()
 
 	try:
-		data_path = Path(__file__).parent.resolve() / file
+		data_path = Path(__file__).parent.parent.resolve() / f"fixtures/{file}"
 	except Exception as e:
 		print(f"Couldn't find file. 😢 {e}")
 
