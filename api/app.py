@@ -30,11 +30,11 @@ app = create_app()
 def register_routes():
 	from endpoints import (
 		jwt,
-		# users
+		users
 	)
 
 	app.include_router(jwt.router)
-	# app.include_router(users.router)
+	app.include_router(users.router)
 
 
 def run_server():
