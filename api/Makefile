@@ -4,9 +4,6 @@ dev_install_requirements:
 dev_run:
 	@python app.py
 
-dev_run_uvicorn:
-	@python -m uvicorn app:app --reload
-
 check_code:
 	@flake8 .
 
