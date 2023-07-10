@@ -10,3 +10,6 @@ check_code:
 db_setup_and_load_fixtures:
 	@python cli.py cassandra-setup
 	@python cli.py database-load-fixtures -c
+
+test:
+	@python cli.py cassandra-setup
