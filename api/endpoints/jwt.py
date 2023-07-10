@@ -19,19 +19,20 @@ router = APIRouter(
 
 
 @router.post("/login/")
-def jwt_login(login_data: UserLoginSchema):
-	user = authenticate_user(login_data['username'], login_data['password'])
+def jwt_login(payload: UserLoginSchema):
+	user = authenticate_user(payload.username, payload.password)
 	if not user:
 		raise HTTPException(
 			status_code=status.HTTP_401_UNAUTHORIZED,
 			detail="Incorrect username or password",
-			headers={"WWW-Authenticate": "Bearer"},
 		)
 	access_token = create_token(data={"user": user.username})
 	user.last_logged = datetime.now()
+	user.save()
+
 	return {
 		"token": access_token,
-		"token_type": "bearer",
+		"token_type": "Bearer",
 		"user_data": user
 	}
 
@@ -42,15 +43,13 @@ def jwt_register(payload: UserRegisterSchema):
 		raise HTTPException(
 			status_code=status.HTTP_400_BAD_REQUEST,
 			detail="Passwords don't match",
-			headers={"WWW-Authenticate": "Bearer"},
 		)
 
 	valid_password_error = valid_password(payload.password)
 	if valid_password_error:
 		raise HTTPException(
 			status_code=status.HTTP_400_BAD_REQUEST,
-			detail=f"{valid_password_error} already in use",
-			headers={"WWW-Authenticate": "Bearer"},
+			detail=f"{valid_password_error}",
 		)
 
 	valid_user_errors = valid_user_in_db(
@@ -61,7 +60,6 @@ def jwt_register(payload: UserRegisterSchema):
 		raise HTTPException(
 			status_code=status.HTTP_400_BAD_REQUEST,
 			detail=f"{valid_user_errors['error']} already in use",
-			headers={"WWW-Authenticate": "Bearer"},
 		)
 
 	new_user = User.create(
