@@ -2,7 +2,7 @@ from datetime import datetime
 
 from fastapi import APIRouter, HTTPException, status
 
-from scheme.users import UserLoginSchema, UserRegisterSchema
+from scheme.jwt import JWTLoginSchema, JWTRegisterSchema
 from dependencies.users import authenticate_user, create_token
 from utils.auth_utils import (
 	valid_user_in_db,
@@ -11,6 +11,7 @@ from utils.auth_utils import (
 )
 
 from models.cassandra.users import User
+from models.cassandra.role import Role
 
 router = APIRouter(
 	prefix="/api/jwt",
@@ -19,7 +20,7 @@ router = APIRouter(
 
 
 @router.post("/login/")
-def jwt_login(payload: UserLoginSchema):
+def jwt_login(payload: JWTLoginSchema):
 	user = authenticate_user(payload.username, payload.password)
 	if not user:
 		raise HTTPException(
@@ -30,15 +31,18 @@ def jwt_login(payload: UserLoginSchema):
 	user.last_logged = datetime.now()
 	user.save()
 
+	role = Role.objects.get(role_id=user.role_id)
+
 	return {
 		"token": access_token,
 		"token_type": "Bearer",
-		"user_data": user
+		"user_data": user,
+		"role_data": role
 	}
 
 
 @router.post("/register/")
-def jwt_register(payload: UserRegisterSchema):
+def jwt_register(payload: JWTRegisterSchema):
 	if payload.password != payload.re_password:
 		raise HTTPException(
 			status_code=status.HTTP_400_BAD_REQUEST,
@@ -68,6 +72,6 @@ def jwt_register(payload: UserRegisterSchema):
 		password=create_hash_password(payload.password),
 		role_name="User"
 	)
-	# new_user.save()
+	new_user.save()
 
 	return new_user
