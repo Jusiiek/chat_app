@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 from typing import Annotated
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, Response
 from fastapi.security import OAuth2PasswordBearer
 
 from jose import jwt, JWTError
@@ -21,9 +21,12 @@ TOKEN_LIFE_TIME = 60 * 24
 
 def authenticate_user(username: str, password: str):
     user = get_user_by_username(username)
-    return user \
-        if user and verify_password(password, user.hashed_password) \
-        else None
+    if user:
+        return user \
+            if verify_password(password, user.password) \
+            else None
+    else:
+        return None
 
 
 def create_token(data: dict):
@@ -36,7 +39,7 @@ def create_token(data: dict):
     return encoded_jwt
 
 
-async def get_current_user_by_token(token: Annotated[str, Depends(oauth2_scheme)]):
+def get_current_user_by_token(token: str = Depends(oauth2_scheme)) -> User:
     http_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid authentication credentials",
@@ -52,7 +55,5 @@ async def get_current_user_by_token(token: Annotated[str, Depends(oauth2_scheme)
     return user
 
 
-async def get_current_user(
-    current_user: Annotated[User, Depends(get_current_user_by_token)]
-):
+def get_current_user(current_user: User = Depends(get_current_user_by_token)) -> User:
     return current_user
