@@ -9,7 +9,7 @@ from cassandra.cqlengine.management import (
 
 from config.db_config import get_sql_db
 
-from utils import read_json
+from utils import read_json, get_role_id
 from utils.auth_utils import create_hash_password
 
 from models.cassandra.role import Role
@@ -50,9 +50,11 @@ async def inject_model_data(model, file: str):
 		if model.__name__ == "User":
 			for data in model_data:
 				user_pass = data.pop('password')
+				role_name = data.pop('role_name')
 				new_model = model.create(
 					**data,
-					password=create_hash_password(user_pass)
+					password=create_hash_password(user_pass),
+					role_id=get_role_id(role_name)
 				)
 				new_model.save()
 		else:
