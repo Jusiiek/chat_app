@@ -12,5 +12,5 @@ class Role(Model):
 	__connection__ = CASSANDRA_CLUSTER_NAME
 
 	role_id = columns.UUID(primary_key=True, required=True, default=uuid.uuid4)
-	name = columns.Text(max_length=20, required=True)
+	name = columns.Text(max_length=20, required=True, index=True)
 	pseudo_name = columns.Text(max_length=20, required=True)
