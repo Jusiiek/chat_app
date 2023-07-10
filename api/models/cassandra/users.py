@@ -19,6 +19,7 @@ class User(Model):
     created_at = columns.DateTime(default=datetime.now)
     updated_at = columns.DateTime(default=datetime.now)
     last_logged = columns.DateTime(default=datetime.now)
-    role_name = columns.Text(max_length=20, required=True, index=True)
+    role_id = columns.UUID(required=True, index=True)
     is_active = columns.Boolean(default=False, index=True)
     banned = columns.Boolean(default=False, index=True)
+    created_by = columns.UUID()
