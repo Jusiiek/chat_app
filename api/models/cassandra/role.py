@@ -7,6 +7,12 @@ from config.enviroments import CASSANDRA_CLUSTER_NAME
 
 
 class Role(Model):
+
+	ROLE_ADMIN = "ADMIN"
+	ROLE_SUBSCRIBER_PLUS = "SUBSCRIBER_PLUS"
+	ROLE_SUBSCRIBER = "SUBSCRIBER"
+	ROLE_USER = "USER"
+
 	__table_name__ = "Roles"
 	__keyspace__ = CASSANDRA_CLUSTER_NAME
 	__connection__ = CASSANDRA_CLUSTER_NAME
