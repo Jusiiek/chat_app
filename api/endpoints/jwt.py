@@ -72,7 +72,7 @@ def jwt_register(payload: JWTRegisterSchema):
 		email=payload.email,
 		username=payload.username,
 		password=create_hash_password(payload.password),
-		role_id=get_role_id("User")
+		role_id=get_role_id(Role.ROLE_USER)
 	)
 	new_user.save()
 
