@@ -10,6 +10,8 @@ from utils.auth_utils import (
 	create_hash_password
 )
 
+from utils import get_role_id
+
 from models.cassandra.users import User
 from models.cassandra.role import Role
 
@@ -70,7 +72,7 @@ def jwt_register(payload: JWTRegisterSchema):
 		email=payload.email,
 		username=payload.username,
 		password=create_hash_password(payload.password),
-		role_name="User"
+		role_id=get_role_id("User")
 	)
 	new_user.save()
 
