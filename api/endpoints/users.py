@@ -15,6 +15,7 @@ from utils.auth_utils import (
 from utils import get_role_id
 
 from models.cassandra.users import User
+from models.cassandra.role import Role
 
 router = APIRouter(
 	prefix="/api/user",
@@ -124,6 +125,15 @@ def update_user(
 			updated_at=datetime.now(),
 			updated_by=user.user_id
 		)
+		if role_name == Role.ROLE_ADMIN:
+			user_to_update.update(
+				is_admin=True
+			)
+		else:
+			user_to_update.update(
+				is_admin=False
+			)
+
 		user_to_update.save()
 
 		return user_to_update
