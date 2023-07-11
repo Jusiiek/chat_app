@@ -3,13 +3,15 @@
     "email": "super_admin@example.com",
     "username": "great_admin",
     "password": "T3stC00mon",
-    "role_name": "SUPER_ADMIN"
+    "role_name": "SUPER_ADMIN",
+    "is_superuser": true
   },
   {
     "email": "admin@example.com",
     "username": "simple_admin",
     "password": "Simpl3@dmin",
-    "role_name": "ADMIN"
+    "role_name": "ADMIN",
+    "is_admin": true
   },
   {
     "email": "user@example.com",
