@@ -4,6 +4,9 @@ import string
 from passlib.context import CryptContext
 
 from models.cassandra.users import User
+from models.cassandra.ban import Ban
+
+from scheme.ban import BanSchema
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -51,3 +54,21 @@ def valid_password(password: str):
 
 	if not re.search(r'[0-9]', password):
 		return "Password must includes at least one number"
+
+
+async def check_if_user_is_active(user: User):
+	if not user.is_active:
+		return "User is not active!"
+
+
+async def check_if_user_has_a_ban(user: User) -> BanSchema:
+	if not user.banned:
+		ban = await Ban.objects.filter(user_id=user.user_id)
+		if ban:
+			ban = ban.first()
+
+			if ban.is_permanently_banned:
+				return "permanently", ban
+
+			else:
+				return "temporarily", ban
