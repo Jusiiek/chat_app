@@ -18,7 +18,7 @@ from models.cassandra.users import User
 from models.cassandra.role import Role
 
 router = APIRouter(
-	prefix="/api/user",
+	prefix="/api/users",
 	tags=['users'],
 	dependencies=[Depends(get_current_user)]
 )
