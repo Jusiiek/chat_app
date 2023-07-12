@@ -1,13 +1,16 @@
 from datetime import datetime
 
 from fastapi import APIRouter, HTTPException, status
+from fastapi.responses import JSONResponse
 
 from scheme.jwt import JWTLoginSchema, JWTRegisterSchema
 from dependencies.users import authenticate_user, create_token
 from utils.auth_utils import (
 	valid_user_in_db,
 	valid_password,
-	create_hash_password
+	create_hash_password,
+	check_if_user_is_active,
+	check_if_user_has_a_ban
 )
 
 from utils import get_role_id
@@ -22,13 +25,31 @@ router = APIRouter(
 
 
 @router.post("/login/")
-def jwt_login(payload: JWTLoginSchema):
+async def jwt_login(payload: JWTLoginSchema):
 	user = authenticate_user(payload.username, payload.password)
 	if not user:
 		raise HTTPException(
 			status_code=status.HTTP_401_UNAUTHORIZED,
 			detail="Incorrect username or password",
 		)
+
+	active_message = await check_if_user_is_active(user)
+	if active_message:
+		raise HTTPException(
+			status_code=status.HTTP_401_UNAUTHORIZED,
+			detail=active_message,
+		)
+
+	ban_type, ban = await check_if_user_has_a_ban(user)
+	if ban_type and ban:
+		return JSONResponse(
+			status_code=401,
+			content={
+				"main_message": f"Your account has been {ban_type} banned",
+				"ban": ban
+			}
+		)
+
 	access_token = create_token(data={"user": user.username})
 	user.last_logged = datetime.now()
 	user.save()
