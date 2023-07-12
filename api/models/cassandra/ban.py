@@ -18,5 +18,5 @@ class Ban(Model):
 	reason = columns.Text(max_length=300, required=True)
 	created_by = columns.Integer(required=True)
 	created_at = columns.DateTime(default=datetime.now)
-	ban_expire = columns.DateTime(default=datetime.now)
+	ban_expire = columns.DateTime()
 	is_permanently_banned = columns.Boolean(default=False)

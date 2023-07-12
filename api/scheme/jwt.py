@@ -6,8 +6,6 @@ class JWTLoginSchema(BaseModel):
 	password: str
 
 
-class JWTRegisterSchema(BaseModel):
+class JWTRegisterSchema(JWTLoginSchema):
 	email: str
-	username: str
-	password: str
 	re_password: str
