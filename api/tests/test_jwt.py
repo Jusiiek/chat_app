@@ -7,31 +7,28 @@ JWT_ENDPOINTS = {
 }
 
 class TestJWT:
-	def test_login(self):
-		user_data = {
-			"username": "great_admin",
-			"password": "T3stC00mon"
-		}
+	user_data = {
+		"email": "test@test.com",
+		"username": "test_from_test",
+		"password": "12zaqWSX!@",
+		"re_password": "12zaqWSX!@"
+	}
 
+	def test_register(self):
 		res = app_client.post(
-			JWT_ENDPOINTS['login_endpoint'],
-			data=user_data
+			JWT_ENDPOINTS['register_endpoint'],
+			data=self.user_data
 		)
 
 		assert res.status_code == 200
 
-
-	def test_register(self):
-		user_data = {
-			"email": "test@test.com",
-			"username": "test_from_test",
-			"password": "12zaqWSX!@",
-			"re_password": "12zaqWSX!@"
-		}
-
+	def test_login(self):
 		res = app_client.post(
-			JWT_ENDPOINTS['register_endpoint'],
-			data=user_data
+			JWT_ENDPOINTS['login_endpoint'],
+			data={
+				"username": self.user_data['username'],
+				"password": self.user_data['password']
+			}
 		)
 
 		assert res.status_code == 200
