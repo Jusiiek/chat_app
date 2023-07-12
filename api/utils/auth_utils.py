@@ -62,13 +62,11 @@ async def check_if_user_is_active(user: User):
 
 
 async def check_if_user_has_a_ban(user: User) -> BanSchema:
-	if not user.banned:
-		ban = await Ban.objects.filter(user_id=user.user_id)
-		if ban:
-			ban = ban.first()
+	if user.banned:
+		ban = await Ban.objects.filter(user_id=user.user_id).first()
 
-			if ban.is_permanently_banned:
-				return "permanently", ban
+		if ban.is_permanently_banned:
+			return "permanently", ban
 
-			else:
-				return "temporarily", ban
+		else:
+			return "temporarily", ban
